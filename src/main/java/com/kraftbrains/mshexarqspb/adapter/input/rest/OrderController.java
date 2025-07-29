@@ -1,7 +1,7 @@
 package com.kraftbrains.mshexarqspb.adapter.input.rest;
 
-import com.kraftbrains.mshexarqspb.domain.dto.foodOrder.FoodOrderRequestDTO;
-import com.kraftbrains.mshexarqspb.mappers.FoodOrderMapper;
+import com.kraftbrains.mshexarqspb.adapter.input.rest.dto.FoodOrderRequestDTO;
+import com.kraftbrains.mshexarqspb.adapter.input.rest.mapper.FoodOrderMapper;
 import com.kraftbrains.mshexarqspb.domain.port.input.PlaceOrderUsecase;
 import com.kraftbrains.mshexarqspb.domain.port.input.TrackOrderUsecase;
 import org.springframework.http.ResponseEntity;

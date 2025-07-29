@@ -1,4 +1,4 @@
-package com.kraftbrains.mshexarqspb.domain.dto.foodOrder;
+package com.kraftbrains.mshexarqspb.adapter.input.rest.dto;
 
 import lombok.Data;
 

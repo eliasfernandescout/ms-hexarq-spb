@@ -1,8 +1,7 @@
-package com.kraftbrains.mshexarqspb.adapter.output;
+package com.kraftbrains.mshexarqspb.adapter.output.repository;
 
 
 import com.kraftbrains.mshexarqspb.adapter.output.entity.JpaOrderEntity;
-import com.kraftbrains.mshexarqspb.adapter.output.repository.SpringDataOrderRepository;
 import com.kraftbrains.mshexarqspb.domain.core.FoodOrder;
 import com.kraftbrains.mshexarqspb.domain.port.output.OrderRepositoryPort;
 import org.springframework.beans.factory.annotation.Autowired;
