@@ -1,9 +1,9 @@
 package com.kraftbrains.mshexarqspb.domain.port.input;
 
 
-import com.kraftbrains.mshexarqspb.domain.dto.FoodOrderDTO;
+import com.kraftbrains.mshexarqspb.domain.model.FoodOrder;
 
 public interface PlaceOrderUsecase {
 
-    void placeOrder(FoodOrderDTO order);
+    void placeOrder(FoodOrder order);
 }

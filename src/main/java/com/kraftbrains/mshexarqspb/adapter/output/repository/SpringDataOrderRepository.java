@@ -1,8 +1,8 @@
 package com.kraftbrains.mshexarqspb.adapter.output.repository;
 
 
-import com.kraftbrains.mshexarqspb.adapter.output.entity.OrderEntity;
+import com.kraftbrains.mshexarqspb.adapter.output.entity.JpaOrderEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface SpringDataOrderRepository extends JpaRepository<OrderEntity, String> {
+public interface SpringDataOrderRepository extends JpaRepository<JpaOrderEntity, String> {
 }

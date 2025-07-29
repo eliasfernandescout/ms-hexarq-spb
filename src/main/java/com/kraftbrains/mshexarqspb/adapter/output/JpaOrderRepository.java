@@ -1,9 +1,10 @@
 package com.kraftbrains.mshexarqspb.adapter.output;
 
 
-import com.kraftbrains.mshexarqspb.adapter.output.entity.OrderEntity;
+import com.kraftbrains.mshexarqspb.adapter.output.entity.JpaOrderEntity;
 import com.kraftbrains.mshexarqspb.adapter.output.repository.SpringDataOrderRepository;
-import com.kraftbrains.mshexarqspb.domain.dto.FoodOrderDTO;
+import com.kraftbrains.mshexarqspb.domain.model.FoodOrder;
+import com.kraftbrains.mshexarqspb.domain.model.FoodOrderMapper;
 import com.kraftbrains.mshexarqspb.domain.port.output.OrderRepositoryPort;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -15,20 +16,20 @@ public class JpaOrderRepository implements OrderRepositoryPort {
     private SpringDataOrderRepository repository;
 
     @Override
-    public void saveOrder(FoodOrderDTO order) {
+    public void saveOrder(FoodOrder order) {
         System.out.println("--OUTPUT ADAPTER EXECUTED WITH OUTPUT PORT--");
         repository.save(mapToEntity(order));
     }
 
     @Override
     public String findById(String orderId) {
-        OrderEntity entity = repository.findById(orderId).orElseThrow();
+        JpaOrderEntity entity = repository.findById(orderId).orElseThrow();
         System.out.println("--OUTPUT ADAPTER EXECUTED WITH OUTPUT PORT--");
         return mapToDomain(entity).getStatus();
     }
 
-    private OrderEntity mapToEntity(FoodOrderDTO order) {
-        OrderEntity entity = new OrderEntity();
+    private JpaOrderEntity mapToEntity(FoodOrder order) {
+        JpaOrderEntity entity = new JpaOrderEntity();
         entity.setOrderId(order.getOrderId());
         entity.setCustomerName(order.getCustomerName());
         entity.setRestaurantName(order.getRestaurantName());
@@ -37,13 +38,13 @@ public class JpaOrderRepository implements OrderRepositoryPort {
         return entity;
     }
 
-    private FoodOrderDTO mapToDomain(OrderEntity entity) {
-        FoodOrderDTO order = new FoodOrderDTO();
-        order.setOrderId(entity.getOrderId());
-        order.setCustomerName(entity.getCustomerName());
-        order.setRestaurantName(entity.getRestaurantName());
-        order.setItem(entity.getItem());
-        order.setStatus(entity.getStatus());
-        return order;
+    private FoodOrder mapToDomain(JpaOrderEntity entity) {
+        return new FoodOrder(
+            entity.getOrderId(),
+            entity.getCustomerName(),
+            entity.getRestaurantName(),
+            entity.getItem(),
+            entity.getStatus()
+        );
     }
 }

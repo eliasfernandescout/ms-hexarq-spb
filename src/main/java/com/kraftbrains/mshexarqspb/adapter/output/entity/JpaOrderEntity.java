@@ -8,7 +8,7 @@ import lombok.Data;
 @Entity
 @Table(name = "orders")
 @Data
-public class OrderEntity {
+public class JpaOrderEntity {
 
     @Id
     private String orderId;
