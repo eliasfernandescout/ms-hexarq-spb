@@ -1,9 +1,9 @@
-package com.kraftbrains.mshexarqspb.domain.dto;
+package com.kraftbrains.mshexarqspb.domain.dto.foodOrder;
 
 import lombok.Data;
 
 @Data
-public class FoodOrderDTO {
+public class FoodOrderRequestDTO {
     private String orderId;
     private String customerName;
     private String restaurantName;

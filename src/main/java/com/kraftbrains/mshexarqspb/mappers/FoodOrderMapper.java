@@ -1,11 +1,12 @@
-package com.kraftbrains.mshexarqspb.domain.model;
+package com.kraftbrains.mshexarqspb.mappers;
 
-import com.kraftbrains.mshexarqspb.domain.dto.FoodOrderDTO;
+import com.kraftbrains.mshexarqspb.domain.dto.foodOrder.FoodOrderRequestDTO;
+import com.kraftbrains.mshexarqspb.domain.core.FoodOrder;
 
 public class FoodOrderMapper {
-    public static FoodOrderDTO toDTO(FoodOrder foodOrder) {
+    public static FoodOrderRequestDTO toDTO(FoodOrder foodOrder) {
         if (foodOrder == null) return null;
-        FoodOrderDTO dto = new FoodOrderDTO();
+        FoodOrderRequestDTO dto = new FoodOrderRequestDTO();
         dto.setOrderId(foodOrder.getOrderId());
         dto.setCustomerName(foodOrder.getCustomerName());
         dto.setRestaurantName(foodOrder.getRestaurantName());
@@ -14,7 +15,7 @@ public class FoodOrderMapper {
         return dto;
     }
 
-    public static FoodOrder toDomain(FoodOrderDTO dto) {
+    public static FoodOrder toDomain(FoodOrderRequestDTO dto) {
         if (dto == null) return null;
         return new FoodOrder(
             dto.getOrderId(),

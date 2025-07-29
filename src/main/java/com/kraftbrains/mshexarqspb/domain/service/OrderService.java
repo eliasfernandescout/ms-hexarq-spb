@@ -1,13 +1,11 @@
 package com.kraftbrains.mshexarqspb.domain.service;
 
 
-import com.kraftbrains.mshexarqspb.domain.dto.FoodOrderDTO;
-import com.kraftbrains.mshexarqspb.domain.model.FoodOrder;
+import com.kraftbrains.mshexarqspb.domain.core.FoodOrder;
 import com.kraftbrains.mshexarqspb.domain.port.input.PlaceOrderUsecase;
 import com.kraftbrains.mshexarqspb.domain.port.input.TrackOrderUsecase;
 import com.kraftbrains.mshexarqspb.domain.port.output.OrderRepositoryPort;
 import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service

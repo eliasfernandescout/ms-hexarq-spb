@@ -1,7 +1,7 @@
 package com.kraftbrains.mshexarqspb.adapter.output.repository;
 
 
-import com.kraftbrains.mshexarqspb.domain.model.FoodOrder;
+import com.kraftbrains.mshexarqspb.domain.core.FoodOrder;
 import com.kraftbrains.mshexarqspb.domain.port.output.OrderRepositoryPort;
 
 import java.util.List;

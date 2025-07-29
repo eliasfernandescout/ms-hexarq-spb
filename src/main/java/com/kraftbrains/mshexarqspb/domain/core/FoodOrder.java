@@ -1,4 +1,4 @@
-package com.kraftbrains.mshexarqspb.domain.model;
+package com.kraftbrains.mshexarqspb.domain.core;
 
 public class FoodOrder {
     private String orderId;
