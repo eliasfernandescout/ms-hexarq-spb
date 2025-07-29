@@ -4,10 +4,12 @@ package com.kraftbrains.mshexarqspb.adapter.output;
 import com.kraftbrains.mshexarqspb.adapter.output.entity.JpaOrderEntity;
 import com.kraftbrains.mshexarqspb.adapter.output.repository.SpringDataOrderRepository;
 import com.kraftbrains.mshexarqspb.domain.model.FoodOrder;
-import com.kraftbrains.mshexarqspb.domain.model.FoodOrderMapper;
 import com.kraftbrains.mshexarqspb.domain.port.output.OrderRepositoryPort;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Repository
 public class JpaOrderRepository implements OrderRepositoryPort {
@@ -26,6 +28,13 @@ public class JpaOrderRepository implements OrderRepositoryPort {
         JpaOrderEntity entity = repository.findById(orderId).orElseThrow();
         System.out.println("--OUTPUT ADAPTER EXECUTED WITH OUTPUT PORT--");
         return mapToDomain(entity).getStatus();
+    }
+
+    @Override
+    public List<FoodOrder> findAll() {
+        return repository.findAll().stream()
+                .map(this::mapToDomain)
+                .collect(Collectors.toList());
     }
 
     private JpaOrderEntity mapToEntity(FoodOrder order) {
