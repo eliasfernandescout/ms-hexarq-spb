@@ -6,16 +6,19 @@ import com.kraftbrains.mshexarqspb.domain.model.FoodOrder;
 import com.kraftbrains.mshexarqspb.domain.port.input.PlaceOrderUsecase;
 import com.kraftbrains.mshexarqspb.domain.port.input.TrackOrderUsecase;
 import com.kraftbrains.mshexarqspb.domain.port.output.OrderRepositoryPort;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
+@AllArgsConstructor
 public class OrderService implements PlaceOrderUsecase, TrackOrderUsecase {
 
     private final OrderRepositoryPort orderRepositoryPort;
 
-    public OrderService(OrderRepositoryPort orderRepositoryPort) {
-        this.orderRepositoryPort = orderRepositoryPort;
-    }
+//    public OrderService(OrderRepositoryPort orderRepositoryPort) {
+//        this.orderRepositoryPort = orderRepositoryPort;
+//    }
 
     @Override
     public void placeOrder(FoodOrder order) {
