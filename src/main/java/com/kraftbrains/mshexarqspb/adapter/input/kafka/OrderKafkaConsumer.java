@@ -2,7 +2,7 @@ package com.kraftbrains.mshexarqspb.adapter.input.kafka;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.kraftbrains.mshexarqspb.domain.dto.FoodOrder;
+import com.kraftbrains.mshexarqspb.domain.dto.FoodOrderDTO;
 import com.kraftbrains.mshexarqspb.domain.port.input.PlaceOrderUsecase;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -19,7 +19,7 @@ public class OrderKafkaConsumer {
         // You would typically use a library like Jackson to convert it to a FoodOrder object
         // For simplicity, let's assume the message is directly convertible
         ObjectMapper mapper = new ObjectMapper();
-        FoodOrder order = mapper.readValue(message, FoodOrder.class);
+        FoodOrderDTO order = mapper.readValue(message, FoodOrderDTO.class);
         placeOrderUseCase.placeOrder(order);
         System.out.println("Order placed via Kafka");
 

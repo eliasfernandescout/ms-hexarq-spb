@@ -3,7 +3,7 @@ package com.kraftbrains.mshexarqspb.adapter.output;
 
 import com.kraftbrains.mshexarqspb.adapter.output.entity.OrderEntity;
 import com.kraftbrains.mshexarqspb.adapter.output.repository.SpringDataOrderRepository;
-import com.kraftbrains.mshexarqspb.domain.dto.FoodOrder;
+import com.kraftbrains.mshexarqspb.domain.dto.FoodOrderDTO;
 import com.kraftbrains.mshexarqspb.domain.port.output.OrderRepositoryPort;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -15,7 +15,7 @@ public class JpaOrderRepository implements OrderRepositoryPort {
     private SpringDataOrderRepository repository;
 
     @Override
-    public void saveOrder(FoodOrder order) {
+    public void saveOrder(FoodOrderDTO order) {
         System.out.println("--OUTPUT ADAPTER EXECUTED WITH OUTPUT PORT--");
         repository.save(mapToEntity(order));
     }
@@ -27,7 +27,7 @@ public class JpaOrderRepository implements OrderRepositoryPort {
         return mapToDomain(entity).getStatus();
     }
 
-    private OrderEntity mapToEntity(FoodOrder order) {
+    private OrderEntity mapToEntity(FoodOrderDTO order) {
         OrderEntity entity = new OrderEntity();
         entity.setOrderId(order.getOrderId());
         entity.setCustomerName(order.getCustomerName());
@@ -37,8 +37,8 @@ public class JpaOrderRepository implements OrderRepositoryPort {
         return entity;
     }
 
-    private FoodOrder mapToDomain(OrderEntity entity) {
-        FoodOrder order = new FoodOrder();
+    private FoodOrderDTO mapToDomain(OrderEntity entity) {
+        FoodOrderDTO order = new FoodOrderDTO();
         order.setOrderId(entity.getOrderId());
         order.setCustomerName(entity.getCustomerName());
         order.setRestaurantName(entity.getRestaurantName());

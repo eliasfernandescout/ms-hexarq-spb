@@ -1,7 +1,7 @@
 package com.kraftbrains.mshexarqspb.domain.service;
 
 
-import com.kraftbrains.mshexarqspb.domain.dto.FoodOrder;
+import com.kraftbrains.mshexarqspb.domain.dto.FoodOrderDTO;
 import com.kraftbrains.mshexarqspb.domain.port.input.PlaceOrderUsecase;
 import com.kraftbrains.mshexarqspb.domain.port.input.TrackOrderUsecase;
 import com.kraftbrains.mshexarqspb.domain.port.output.OrderRepositoryPort;
@@ -17,7 +17,7 @@ public class OrderService implements PlaceOrderUsecase, TrackOrderUsecase {
     }
 
     @Override
-    public void placeOrder(FoodOrder order) {
+    public void placeOrder(FoodOrderDTO order) {
         order.setStatus("ORDER PLACED");
         System.out.println("--CORE EXECUTED WITH INPUT PORT--");
         // Here you would typically call a repository to save the order

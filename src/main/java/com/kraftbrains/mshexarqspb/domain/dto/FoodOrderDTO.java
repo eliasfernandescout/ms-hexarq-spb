@@ -3,7 +3,7 @@ package com.kraftbrains.mshexarqspb.domain.dto;
 import lombok.Data;
 
 @Data
-public class FoodOrder {
+public class FoodOrderDTO {
     private String orderId;
     private String customerName;
     private String restaurantName;

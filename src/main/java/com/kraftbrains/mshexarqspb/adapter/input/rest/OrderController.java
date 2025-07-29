@@ -1,6 +1,6 @@
 package com.kraftbrains.mshexarqspb.adapter.input.rest;
 
-import com.kraftbrains.mshexarqspb.domain.dto.FoodOrder;
+import com.kraftbrains.mshexarqspb.domain.dto.FoodOrderDTO;
 import com.kraftbrains.mshexarqspb.domain.port.input.PlaceOrderUsecase;
 import com.kraftbrains.mshexarqspb.domain.port.input.TrackOrderUsecase;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +18,7 @@ public class OrderController {
         this.trackOrderUsecase = trackOrderUsecase;
     }
     @PostMapping
-    public ResponseEntity<String> placeOrder(@RequestBody FoodOrder order) {
+    public ResponseEntity<String> placeOrder(@RequestBody FoodOrderDTO order) {
         placeOrderUsecase.placeOrder(order);
         System.out.println("--INPUT ADAPTER EXECUTED--");
         return ResponseEntity.ok("Order placed");
