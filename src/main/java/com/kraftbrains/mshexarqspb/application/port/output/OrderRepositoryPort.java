@@ -1,4 +1,4 @@
-package com.kraftbrains.mshexarqspb.domain.port.output;
+package com.kraftbrains.mshexarqspb.application.port.output;
 
 import com.kraftbrains.mshexarqspb.domain.core.FoodOrder;
 import java.util.List;
@@ -6,6 +6,6 @@ import java.util.List;
 public interface OrderRepositoryPort {
 
     void saveOrder(FoodOrder order);
-    String findById(String orderId);
+    FoodOrder findById(String orderId);
     List<FoodOrder> findAll();
 }

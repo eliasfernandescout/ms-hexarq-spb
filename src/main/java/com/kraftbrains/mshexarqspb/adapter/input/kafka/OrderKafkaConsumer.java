@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kraftbrains.mshexarqspb.adapter.input.rest.dto.FoodOrderRequestDTO;
 import com.kraftbrains.mshexarqspb.domain.core.FoodOrder;
 import com.kraftbrains.mshexarqspb.adapter.input.rest.mapper.FoodOrderMapper;
-import com.kraftbrains.mshexarqspb.domain.port.input.PlaceOrderUsecase;
+import com.kraftbrains.mshexarqspb.application.port.input.PlaceOrderUsecase;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

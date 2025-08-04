@@ -1,9 +1,11 @@
 package com.kraftbrains.mshexarqspb.adapter.output.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Data;
+
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "orders")
@@ -15,8 +17,15 @@ public class JpaOrderEntity {
 
     private String customerName;
     private String restaurantName;
-    private String item;
     private String status;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
+    private String cancellationReason;
 
-    // Getters & Setters
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    @JoinColumn(name = "order_id")
+    private List<JpaOrderItemEntity> items = new ArrayList<>();
+
+    @Embedded
+    private JpaDeliveryAddressEntity deliveryAddress;
 }
