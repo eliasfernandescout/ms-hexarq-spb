@@ -1,205 +1,189 @@
-# MS Hexagonal Architecture - Spring Boot
+# Microserviço de Atos Cambiais
 
-## 📐 Arquitetura Hexagonal (Ports & Adapters)
+Microserviço desenvolvido com **Arquitetura Hexagonal** e **Domain Driven Design** para gerenciamento de atos cambiais: **Endosso** e **Aval**.
 
-Este projeto implementa uma arquitetura hexagonal completa para um sistema de pedidos de comida (Food Order).
+## 🏗️ Arquitetura
 
-## 🏗️ Estrutura do Projeto
-
-```
-ms-hexarq-spb/
-├── domain/                          # 🟡 DOMÍNIO (Núcleo)
-│   ├── model/                       # Entidades de domínio
-│   │   ├── FoodOrder.java          # Entidade rica com regras de negócio
-│   │   ├── OrderItem.java
-│   │   └── OrderStatus.java
-│   └── event/                       # Eventos de domínio
-│       ├── OrderEvent.java
-│       └── OrderEventType.java
-│
-├── application/                     # 🔴 APLICAÇÃO (Casos de Uso)
-│   ├── port/
-│   │   ├── input/                  # Portas de Entrada (o que a aplicação faz)
-│   │   │   ├── CreateOrderUseCase.java
-│   │   │   ├── TrackOrderUseCase.java
-│   │   │   └── UpdateOrderStatusUseCase.java
-│   │   └── output/                 # Portas de Saída (o que a aplicação precisa)
-│   │       ├── OrderRepositoryPort.java
-│   │       ├── OrderEventPublisherPort.java
-│   │       └── NotificationServicePort.java
-│   └── service/                    # Implementação dos casos de uso
-│       ├── CreateOrderUseCaseImpl.java
-│       ├── TrackOrderUseCaseImpl.java
-│       └── UpdateOrderStatusUseCaseImpl.java
-│
-└── adapter/                        # 🔵 INFRAESTRUTURA (Adapters)
-    ├── input/                      # Adapters de Entrada
-    │   ├── rest/                   # Controladores REST (HTTP)
-    │   │   ├── OrderController.java
-    │   │   ├── dto/
-    │   │   │   ├── CreateOrderRequest.java
-    │   │   │   ├── OrderResponse.java
-    │   │   │   ├── OrderItemRequest.java
-    │   │   │   └── OrderItemResponse.java
-    │   │   └── mapper/
-    │   │       └── OrderRestMapper.java
-    │   └── messaging/
-    │       └── kafka/              # Consumidor Kafka
-    │           └── OrderEventKafkaListener.java
-    │
-    └── output/                     # Adapters de Saída
-        ├── persistence/            # Persistência SQL (JPA)
-        │   ├── entity/
-        │   │   ├── OrderEntity.java
-        │   │   └── OrderItemEntity.java
-        │   ├── repository/
-        │   │   └── JpaOrderRepository.java
-        │   ├── mapper/
-        │   │   └── OrderPersistenceMapper.java
-        │   └── OrderRepositoryAdapter.java
-        ├── messaging/
-        │   └── kafka/              # Produtor Kafka
-        │       └── KafkaOrderEventPublisher.java
-        └── service/                # Serviços externos
-            └── NotificationServiceAdapter.java
-```
-
-## 🎯 Conceitos da Arquitetura Hexagonal
-
-### Camadas
-
-1. **DOMÍNIO (Centro)** 🟡
-   - Contém as regras de negócio puras
-   - Independente de frameworks e tecnologias
-   - Entidades ricas com comportamento
-
-2. **APLICAÇÃO (Casos de Uso)** 🔴
-   - Orquestra o fluxo de dados
-   - Define portas (interfaces)
-   - Implementa casos de uso
-
-3. **INFRAESTRUTURA (Adapters)** 🔵
-   - Implementa as portas
-   - Conecta com tecnologias externas (DB, HTTP, Kafka)
-   - Adaptadores podem ser trocados sem afetar o domínio
-
-### Portas (Ports)
-
-- **Input Ports**: Interfaces que definem O QUE a aplicação faz (casos de uso)
-- **Output Ports**: Interfaces que definem O QUE a aplicação precisa (repositórios, serviços)
-
-### Adapters
-
-- **Input Adapters**: Controladores REST, consumidores Kafka (HTTP, Message Broker)
-- **Output Adapters**: Repositórios JPA, produtores Kafka, serviços externos (SQL, SMTP)
-
-## 🔄 Fluxo de Dados
+### Estrutura do Projeto
 
 ```
-HTTP Request → REST Controller → UseCase → Domain Logic → Repository Port → JPA Adapter → Database
-                    ↓                ↓
-              REST Mapper      Event Publisher → Kafka → External Systems
+src/main/java/com/kraftbrains/mshexarqspb/
+├── domain/                          # Camada de Domínio (Core)
+│   ├── model/                       # Entidades e Value Objects
+│   │   ├── Endosso.java
+│   │   ├── Aval.java
+│   │   ├── TipoEndosso.java
+│   │   ├── StatusEndosso.java
+│   │   ├── TipoAval.java
+│   │   └── StatusAval.java
+│   └── port/                        # Portas (Interfaces)
+│       ├── in/                      # Portas de entrada (Use Cases)
+│       │   ├── EndossoUseCasePort.java
+│       │   └── AvalUseCasePort.java
+│       └── out/                     # Portas de saída (Repositórios)
+│           ├── EndossoRepositoryPort.java
+│           └── AvalRepositoryPort.java
+├── application/                     # Camada de Aplicação
+│   └── service/                     # Serviços que implementam Use Cases
+│       ├── EndossoService.java
+│       └── AvalService.java
+└── infrastructure/                  # Camada de Infraestrutura
+    ├── persistence/                 # Adaptadores de persistência
+    │   ├── entity/                  # Entidades JPA
+    │   │   ├── EndossoEntity.java
+    │   │   └── AvalEntity.java
+    │   ├── repository/              # Repositórios JPA
+    │   │   ├── EndossoJpaRepository.java
+    │   │   └── AvalJpaRepository.java
+    │   ├── mapper/                  # Mapeadores Domain <-> Entity
+    │   │   ├── EndossoMapper.java
+    │   │   └── AvalMapper.java
+    │   └── adapter/                 # Implementação das portas
+    │       ├── EndossoRepositoryAdapter.java
+    │       └── AvalRepositoryAdapter.java
+    └── web/                         # Adaptadores Web (REST)
+        ├── controller/              # Controllers REST
+        │   ├── EndossoController.java
+        │   └── AvalController.java
+        ├── dto/                     # DTOs de Request/Response
+        │   ├── EndossoRequestDTO.java
+        │   ├── EndossoResponseDTO.java
+        │   ├── AvalRequestDTO.java
+        │   └── AvalResponseDTO.java
+        ├── mapper/                  # Mapeadores DTO <-> Domain
+        │   ├── EndossoDTOMapper.java
+        │   └── AvalDTOMapper.java
+        └── exception/               # Tratamento de exceções
+            └── GlobalExceptionHandler.java
 ```
 
-## 📋 Endpoints REST
+## 🔑 Conceitos Implementados
 
-### Criar Pedido
-```http
-POST /api/orders
-Content-Type: application/json
+### Arquitetura Hexagonal (Ports and Adapters)
+- **Domínio isolado**: Lógica de negócio independente de frameworks
+- **Portas**: Interfaces que definem contratos
+- **Adaptadores**: Implementações concretas das portas
 
-{
-  "customerId": "123",
-  "customerName": "João Silva",
-  "deliveryAddress": "Rua ABC, 123",
-  "items": [
-    {
-      "productId": "p1",
-      "productName": "Pizza Margherita",
-      "quantity": 2,
-      "price": 35.00
-    }
-  ]
-}
-```
+### Domain Driven Design (DDD)
+- **Entidades de Domínio**: Endosso e Aval com comportamentos ricos
+- **Value Objects**: Enums para tipos e status
+- **Validações de Domínio**: Regras de negócio nas entidades
+- **Linguagem Ubíqua**: Termos do domínio cambial
 
-### Buscar Pedido
-```http
-GET /api/orders/{orderId}
-```
+## 📋 Funcionalidades
 
-### Atualizar Status
-```http
-PATCH /api/orders/{orderId}/confirm
-PATCH /api/orders/{orderId}/prepare
-PATCH /api/orders/{orderId}/ready
-PATCH /api/orders/{orderId}/deliver
-PATCH /api/orders/{orderId}/cancel
-```
+### Endosso (Transferência de Título)
+- Criar endosso
+- Buscar por ID ou número do título
+- Aprovar endosso
+- Cancelar endosso
+- Listar todos os endossos
 
-## 🚀 Como Executar
+**Tipos de Endosso:**
+- `EM_BRANCO`: Sem beneficiário especificado
+- `EM_PRETO`: Com beneficiário especificado
+- `MANDATO`: Para cobrança (procuração)
+- `CAUCAO`: Em garantia
 
-### Pré-requisitos
-- Java 17
-- Maven
-- Kafka (opcional, para mensageria)
+### Aval (Garantia de Pagamento)
+- Criar aval
+- Buscar por ID ou número do título
+- Aprovar aval
+- Executar aval
+- Cancelar aval
+- Listar todos os avais
 
-### Executar a aplicação
+**Tipos de Aval:**
+- `TOTAL`: Pelo valor total do título
+- `PARCIAL`: Por valor parcial do título
+
+## 🚀 Tecnologias
+
+- **Java 17**
+- **Spring Boot 3.5.4**
+- **Spring Data JPA**
+- **Lombok**
+- **H2 Database** (em memória)
+- **Maven**
+
+## ▶️ Como Executar
+
 ```bash
+# Compilar o projeto
+mvnw clean install
+
+# Executar a aplicação
 mvnw spring-boot:run
 ```
 
-### Acessar H2 Console
-- URL: http://localhost:8080/h2-console
-- JDBC URL: jdbc:h2:mem:orderdb
-- Username: sa
-- Password: (deixar vazio)
+Acesse:
+- **API**: http://localhost:8080
+- **H2 Console**: http://localhost:8080/h2-console
+  - JDBC URL: `jdbc:h2:mem:atoscambiaisdb`
+  - Username: `sa`
+  - Password: (vazio)
 
-### Kafka (Opcional)
-Se quiser testar com Kafka:
-```bash
-# Iniciar Zookeeper
-zookeeper-server-start config/zookeeper.properties
+## 📡 Endpoints da API
 
-# Iniciar Kafka
-kafka-server-start config/server.properties
+### Endosso
+
+```http
+POST   /api/v1/endossos              # Criar endosso
+GET    /api/v1/endossos               # Listar todos
+GET    /api/v1/endossos/{id}          # Buscar por ID
+GET    /api/v1/endossos/titulo/{numero} # Buscar por número do título
+PUT    /api/v1/endossos/{id}/aprovar  # Aprovar endosso
+PUT    /api/v1/endossos/{id}/cancelar # Cancelar endosso
+DELETE /api/v1/endossos/{id}          # Deletar endosso
+```
+
+**Exemplo de Request - Criar Endosso:**
+```json
+{
+  "numeroTitulo": "TIT-2024-001",
+  "endossante": "João Silva",
+  "endossatario": "Maria Santos",
+  "tipoEndosso": "EM_PRETO",
+  "observacoes": "Transferência de direitos"
+}
+```
+
+### Aval
+
+```http
+POST   /api/v1/avais                  # Criar aval
+GET    /api/v1/avais                  # Listar todos
+GET    /api/v1/avais/{id}             # Buscar por ID
+GET    /api/v1/avais/titulo/{numero}  # Buscar por número do título
+PUT    /api/v1/avais/{id}/aprovar     # Aprovar aval
+PUT    /api/v1/avais/{id}/executar    # Executar aval
+PUT    /api/v1/avais/{id}/cancelar    # Cancelar aval
+DELETE /api/v1/avais/{id}             # Deletar aval
+```
+
+**Exemplo de Request - Criar Aval:**
+```json
+{
+  "numeroTitulo": "TIT-2024-001",
+  "avalista": "Pedro Costa",
+  "avalizado": "João Silva",
+  "tipoAval": "TOTAL",
+  "valorAval": 10000.00,
+  "observacoes": "Garantia total do pagamento"
+}
 ```
 
 ## 🧪 Testes
 
-### Exemplo de requisição com cURL
+Execute os testes com:
 ```bash
-curl -X POST http://localhost:8080/api/orders \
-  -H "Content-Type: application/json" \
-  -d '{
-    "customerId": "123",
-    "customerName": "João Silva",
-    "deliveryAddress": "Rua ABC, 123",
-    "items": [
-      {
-        "productId": "p1",
-        "productName": "Pizza",
-        "quantity": 2,
-        "price": 35.00
-      }
-    ]
-  }'
+mvnw test
 ```
 
-## 🎓 Benefícios da Arquitetura Hexagonal
+## 📝 Notas
 
-✅ **Testabilidade**: Fácil mockar portas  
-✅ **Manutenibilidade**: Separação clara de responsabilidades  
-✅ **Flexibilidade**: Trocar adapters sem afetar domínio  
-✅ **Independência**: Domínio não depende de frameworks  
-✅ **Escalabilidade**: Adicionar novos adapters facilmente  
-
-## 📚 Tecnologias Utilizadas
-
-- Spring Boot 3.5.4
-- Spring Data JPA
-- Spring Kafka
-- H2 Database
-- Jackson
-- Maven
+- O microserviço usa H2 em memória, os dados são perdidos ao reiniciar
+- Para produção, configure um banco de dados persistente (PostgreSQL, MySQL, etc.)
+- As validações de domínio garantem a integridade dos dados
+- Tratamento global de exceções implementado
 
